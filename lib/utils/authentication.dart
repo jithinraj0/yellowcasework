@@ -9,7 +9,6 @@ class Authentication {
       {required BuildContext context}) async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
-    // TODO: Add auto login logic
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
@@ -26,6 +25,7 @@ class Authentication {
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
+    
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 

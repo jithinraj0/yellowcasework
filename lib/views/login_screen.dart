@@ -11,31 +11,21 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 16.0,
-            right: 16.0,
-            bottom: 20.0,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              FutureBuilder(
-                future: Authentication.initializeFirebase(context: context),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error initializing Firebase');
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                    return GoogleSignInButton();
-                  }
-                  return CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.orange,
-                    ),
-                  );
-                },
-              ),
-            ],
+        child: Center(
+          child: FutureBuilder(
+            future: Authentication.initializeFirebase(context: context),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error initializing Firebase');
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                return GoogleSignInButton();
+              }
+              return CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.orange,
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -91,7 +81,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 }
               },
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
                   'Sign in with Google',
                   style: TextStyle(

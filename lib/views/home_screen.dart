@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yellowcase_app/controller/video_controller.dart';
 import 'package:yellowcase_app/utils/authentication.dart';
 import 'package:yellowcase_app/views/login_screen.dart';
 import 'package:yellowcase_app/views/videoplayer_screen.dart';
@@ -21,44 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late User _user;
   bool _isSigningOut = false;
 
-  Route _routeToSignInScreen() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => LoginScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(-1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
+  double get screenHeight => MediaQuery.of(context).size.height;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
-
-  Route _routeToVideoPlayerScreen() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => VideoScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(-1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
-
+  double get screenWidth => MediaQuery.of(context).size.width;
   @override
   void initState() {
     _user = widget._user;
@@ -70,22 +34,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.blueGrey,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 16.0,
-            right: 16.0,
-            bottom: 20.0,
-          ),
-          child: SingleChildScrollView(
+      body: Padding(
+        padding: const EdgeInsets.only(
+          left: 16.0,
+          right: 16.0,
+          top: 40.0,
+        ),
+        child: SingleChildScrollView(
+          child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(),
                 _user.photoURL != null
                     ? ClipOval(
                         child: Material(
@@ -113,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Hello',
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: Colors.white,
                     fontSize: 26,
                   ),
                 ),
@@ -121,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   _user.displayName!,
                   style: TextStyle(
-                    color: Colors.yellow,
+                    color: Colors.white,
                     fontSize: 26,
                   ),
                 ),
@@ -129,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   '( ${_user.email!} )',
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: Colors.white,
                     fontSize: 20,
                     letterSpacing: 0.5,
                   ),
@@ -158,8 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {
                             _isSigningOut = false;
                           });
-                          Navigator.of(context)
-                              .pushReplacement(_routeToSignInScreen());
+                          Get.offAll(() => LoginScreen());
                         },
                         child: Padding(
                           padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
@@ -175,35 +132,42 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                 SizedBox(height: 24.0),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Colors.redAccent,
-                    ),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  onPressed: () async {
-                    Get.to(VideoScreen());
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Text(
-                      'Play Video',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                  ),
-                ),
+                homeButton(
+                    title: 'Play Video',
+                    action: () => Get.to(() => VideoScreen())),
+
+                /*  Text(screenHeight.toString() + ' b '+screenWidth.toString()) */
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ElevatedButton homeButton(
+      {required void Function() action, required String title}) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          Colors.redAccent,
+        ),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+      onPressed: action,
+      child: Padding(
+        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            letterSpacing: 2,
           ),
         ),
       ),

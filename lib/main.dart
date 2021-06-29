@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yellowcase_app/views/login_screen.dart';
 
-import 'views/videoplayer_screen.dart';
-
 void main() {
   runApp(GetMaterialApp(home: MyApp()));
 }
@@ -13,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Yellow Class Work',
       theme: ThemeData(
         // This is the theme of your application.
         //
