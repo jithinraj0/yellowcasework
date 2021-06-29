@@ -1,16 +1,13 @@
-# yellowcase_app
+# Yellow Class Work
 
-A new Flutter project.
+A basic flutter project with camera and video player functionalities along with google authentication.
 
-## Getting Started
+## Tasks ✅✅
 
-This project is a starting point for a Flutter application.
+ Build a simple Flutter app to play a video in fullscreen landscape mode with a slider bar to control the volume in the video. ✅
 
-A few resources to get you started if this is your first Flutter project:
+Stream the user's device front camera feed (if exists) in a small box above the video player on the bottom right corner of the screen. ✅
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Allow the user to drag the webcam feed widget around on the screen. ✅
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Build persistent firebase authentication. ✅
